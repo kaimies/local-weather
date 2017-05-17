@@ -95,9 +95,26 @@ class App extends Component {
     
   }
 
+  renderTemperatureButtons() {
+    return (
+      <Button.Group basic>
+        <Button active={this.state.temperatureUnit === TEMPERATURE_UNIT_FAHRENHEIT} onClick={() => this.setState({ temperatureUnit: TEMPERATURE_UNIT_FAHRENHEIT })}>°F</Button>
+        <Button active={this.state.temperatureUnit === TEMPERATURE_UNIT_CELSIUS} onClick={() => this.setState({ temperatureUnit: TEMPERATURE_UNIT_CELSIUS })}>°C</Button>
+      </Button.Group>
+    );
+  }
+
   renderWeatherInfo() {
     if (this.state.isLoading) {
       return null;
+    }
+
+    let temperatureUnit = '°F';
+    let temperature = this.state.temperature;
+
+    if (this.state.temperatureUnit === TEMPERATURE_UNIT_CELSIUS) {
+      temperatureUnit = '°C';
+      temperature = (temperature - 32) * 5 / 9;
     }
 
     return (
@@ -105,7 +122,7 @@ class App extends Component {
         <Header size="large">
           {this.renderWeatherIcon()}
           <Header.Content>
-            {this.state.temperature + ' °F'}
+            {`${Math.round(temperature)} ${temperatureUnit}`}
           </Header.Content>
         </Header>
       </div>
@@ -118,6 +135,7 @@ class App extends Component {
         <Header as="h1" textAlign="center" size="huge">Weather App</Header>
         <Segment loading={this.state.isLoading} textAlign="center">
           {this.renderWeatherInfo()}
+          {this.renderTemperatureButtons()}
         </Segment>
         <Button basic as="a" href="https://darksky.net/poweredby/" target="_blank" rel="noopener noreferrer">Powered by Dark Sky</Button>
         <Button basic floated="right" as="a" href="https://github.com/kaimies/local-weather" target="_blank" rel="noopener noreferrer">Source Code</Button>
