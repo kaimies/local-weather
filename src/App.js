@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Container, Segment, Header, Button, Icon } from 'semantic-ui-react';
+import jsonp from 'jsonp';
 import './App.css';
 
 const TEMPERATURE_UNIT_FAHRENHEIT = 'fahrenheit';
@@ -11,10 +12,35 @@ class App extends Component {
 
     this.state = {
       temperature: '',
+      icon: '',
       temperatureUnit: TEMPERATURE_UNIT_FAHRENHEIT,
       error: '',
       isLoading: true,
     };
+  }
+
+  componentDidMount() {
+    this.getWeatherInfo();
+  }
+
+  fetch = (url) => {
+    return new Promise((resolve, reject) => {
+      jsonp(url, (err, response) => {
+        if (err) {
+          return reject(err);
+        }
+
+        return resolve(response);
+      });
+    });
+  }
+
+  getWeatherInfo() {
+    this.setState({ loading: true });
+    this.getUserLoation()
+      .then(coords => this.fetch(`https://api.darksky.net/forecast/ef5408b43a3bf90eec0abd7e0684947c/${coords.latitude},${coords.longitude}`))
+      .then(response => this.setState({ temperature: response.currently.temperature, icon: response.currently.icon, loading: false, error: '' }))
+      .catch(error => this.setState({ error, loading: false }));
   }
 
   getUserLocation() {
