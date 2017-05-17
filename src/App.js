@@ -37,10 +37,10 @@ class App extends Component {
 
   getWeatherInfo() {
     this.setState({ loading: true });
-    this.getUserLoation()
+    this.getUserLocation()
       .then(coords => this.fetch(`https://api.darksky.net/forecast/ef5408b43a3bf90eec0abd7e0684947c/${coords.latitude},${coords.longitude}`))
-      .then(response => this.setState({ temperature: response.currently.temperature, icon: response.currently.icon, loading: false, error: '' }))
-      .catch(error => this.setState({ error, loading: false }));
+      .then(response => this.setState({ temperature: response.currently.temperature, icon: response.currently.icon, isLoading: false, error: '' }))
+      .catch(error => this.setState({ error, isLoading: false }));
   }
 
   getUserLocation() {
@@ -59,7 +59,7 @@ class App extends Component {
     return (
       <Container>
         <Header as="h1" textAlign="center">Weatcher App</Header>
-        <Segment>
+        <Segment loading={this.state.isLoading}>
         </Segment>
         <Button basic as="a" href="https://darksky.net/poweredby/" target="_blank" rel="noopener noreferrer">Powered by Dark Sky</Button>
         <Button basic floated="right" as="a" href="https://github.com/kaimies/local-weather" target="_blank" rel="noopener noreferrer">Source Code</Button>
