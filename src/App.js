@@ -2,7 +2,21 @@ import React, { Component } from 'react';
 import { Container, Segment, Header, Button, Icon } from 'semantic-ui-react';
 import './App.css';
 
+const TEMPERATURE_UNIT_FAHRENHEIT = 'fahrenheit';
+const TEMPERATURE_UNIT_CELSIUS = 'celsius';
+
 class App extends Component {
+  constructor() {
+    super();
+
+    this.state = {
+      temperature: '',
+      temperatureUnit: TEMPERATURE_UNIT_FAHRENHEIT,
+      error: '',
+      isLoading: true,
+    };
+  }
+
   getUserLocation() {
     return new Promise((resolve, reject) => {
       if (!("geolocation" in navigator)) {
