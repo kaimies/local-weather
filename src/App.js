@@ -11,8 +11,6 @@ import cloudMoon from './weather-icons/Cloud-Moon.svg';
 import cloudRain from './weather-icons/Cloud-Rain.svg';
 import cloudSnow from './weather-icons/Cloud-Snow.svg';
 import cloudSun from './weather-icons/Cloud-Sun.svg';
-import degreesCelcius from './weather-icons/Degrees-Celcius.svg';
-import degreesFahrenheit from './weather-icons/Degrees-Fahrenheit.svg';
 import './App.css';
 
 const TEMPERATURE_UNIT_FAHRENHEIT = 'fahrenheit';
