@@ -3,13 +3,13 @@ import { Container, Segment, Header, Button, Icon } from 'semantic-ui-react';
 import './App.css';
 
 class App extends Component {
-  getUserLoation() {
+  getUserLocation() {
     return new Promise((resolve, reject) => {
       if (!("geolocation" in navigator)) {
         return reject(new Error('Geolocation not supported'));
       }
 
-      navigator.getCurrentPosition((position) => {
+      navigator.geolocation.getCurrentPosition((position) => {
         return resolve(position.coords);
       });
     });
