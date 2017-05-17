@@ -1,6 +1,18 @@
 import React, { Component } from 'react';
 import { Container, Segment, Header, Button, Icon } from 'semantic-ui-react';
 import jsonp from 'jsonp';
+import cloud from './weather-icons/Cloud.svg';
+import sun from './weather-icons/Sun.svg';
+import moon from './weather-icons/Moon.svg';
+import wind from './weather-icons/Wind.svg';
+import cloudFog from './weather-icons/Cloud-Fog.svg';
+import cloudHail from './weather-icons/Cloud-Hail.svg';
+import cloudMoon from './weather-icons/Cloud-Moon.svg';
+import cloudRain from './weather-icons/Cloud-Rain.svg';
+import cloudSnow from './weather-icons/Cloud-Snow.svg';
+import cloudSun from './weather-icons/Cloud-Sun.svg';
+import degreesCelcius from './weather-icons/Degrees-Celcius.svg';
+import degreesFahrenheit from './weather-icons/Degrees-Fahrenheit.svg';
 import './App.css';
 
 const TEMPERATURE_UNIT_FAHRENHEIT = 'fahrenheit';
@@ -55,11 +67,57 @@ class App extends Component {
     });
   }
 
+  renderWeatherIcon() {
+    switch(this.state.icon) {
+      case 'clear-day':
+        return <img src={sun} alt={this.state.icon}/>;
+      case 'clear-night':
+        return <img src={moon} alt={this.state.icon}/>;
+      case 'rain':
+        return <img src={cloudRain} alt={this.state.icon}/>;
+      case 'snow':
+        return <img src={cloudSnow} alt={this.state.icon}/>;
+      case 'sleet':
+        return <img src={cloudHail} alt={this.state.icon}/>;
+      case 'fog':
+        return <img src={cloudFog} alt={this.state.icon}/>;
+      case 'partly-cloudy-day':
+        return <img src={cloudSun} alt={this.state.icon}/>;
+      case 'partly-cloudy-night':
+        return <img src={cloudMoon} alt={this.state.icon}/>;
+      case 'cloudy':
+        return <img src={cloud} alt={this.state.icon}/>;
+      case 'wind':
+        return <img src={wind} alt={this.state.icon}/>;
+      default:
+        return <img src={sun} alt={this.state.icon}/>;
+    }
+    
+  }
+
+  renderWeatherInfo() {
+    if (this.state.isLoading) {
+      return null;
+    }
+
+    return (
+      <div>
+        <Header size="large">
+          {this.renderWeatherIcon()}
+          <Header.Content>
+            {this.state.temperature + ' °F'}
+          </Header.Content>
+        </Header>
+      </div>
+    );
+  }
+
   render() {
     return (
       <Container>
-        <Header as="h1" textAlign="center">Weatcher App</Header>
-        <Segment loading={this.state.isLoading}>
+        <Header as="h1" textAlign="center" size="huge">Weather App</Header>
+        <Segment loading={this.state.isLoading} textAlign="center">
+          {this.renderWeatherInfo()}
         </Segment>
         <Button basic as="a" href="https://darksky.net/poweredby/" target="_blank" rel="noopener noreferrer">Powered by Dark Sky</Button>
         <Button basic floated="right" as="a" href="https://github.com/kaimies/local-weather" target="_blank" rel="noopener noreferrer">Source Code</Button>
